@@ -26,7 +26,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -37,7 +37,17 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'title' => 'required|max:100',
+            'body'  => 'required'
+        ]);
+
+        Post::create([
+            'title' => request('title'),
+            'body'  => request('body'),
+        ]);
+
+        return redirect('/posts');
     }
 
     /**
@@ -48,7 +58,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
     /**

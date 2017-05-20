@@ -32,12 +32,12 @@
       <div class="row">
 
         <div class="col-sm-8 blog-main">
-
             @yield('content')
-
         </div>
 
-        @include('partials.sidebar')<!-- /.blog-sidebar -->
+        <div class="col-sm-3">
+            @include('partials.sidebar')
+        </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->
 
