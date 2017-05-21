@@ -4,6 +4,7 @@
     @include('posts.post')
 
     <hr/>
+
     <div class="comments">
         <ul class="list-group">
 
