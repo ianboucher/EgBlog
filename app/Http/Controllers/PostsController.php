@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -42,9 +47,9 @@ class PostsController extends Controller
             'body'  => 'required'
         ]);
 
-        Post::create([
+        auth()->user()->posts()->create([
             'title' => request('title'),
-            'body'  => request('body'),
+            'body'  => request('body')
         ]);
 
         return redirect('/posts');
