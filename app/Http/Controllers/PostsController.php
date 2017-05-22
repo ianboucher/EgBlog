@@ -24,14 +24,7 @@ class PostsController extends Controller
             ->filter(request(['month', 'year']))
             ->get();
 
-        // TODO:  extract this to a view composer
-        $archives = Post::selectRaw
-            ('year(created_at)year, monthname(created_at)month, count(*)published')
-            ->groupBy('year', 'month')
-            ->orderByRaw('min(created_at)', 'desc')
-            ->get();
-
-        return view('posts.index', compact('posts', 'archives'));
+        return view('posts.index', compact('posts'));
     }
 
     /**
