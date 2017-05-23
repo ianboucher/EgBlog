@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\User;
+use App\Repositories\PostsRepository;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -18,14 +19,20 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $posts = Post::orderBy('created_at', 'desc')
-            ->filter(request(['month', 'year']))
-            ->get();
+     public function index(PostsRepository $posts)
+     {
+         $posts = $posts->all();
 
-        return view('posts.index', compact('posts'));
-    }
+         return view('posts.index', compact('posts'));
+     }
+    // public function index()
+    // {
+    //     $posts = Post::orderBy('created_at', 'desc')
+    //         ->filter(request(['month', 'year']))
+    //         ->get();
+    //
+    //     return view('posts.index', compact('posts'));
+    // }
 
     /**
      * Show the form for creating a new resource.
