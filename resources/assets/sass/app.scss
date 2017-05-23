@@ -159,6 +159,15 @@ h6, .h6 {
   color: #999;
 }
 
+/*
+ * Flash
+ */
+.alert-success {
+    height: 2.5rem;
+    padding-top: 0.5rem;
+    text-align: center;
+    z-index: 10;
+}
 
 /*
  * Footer
