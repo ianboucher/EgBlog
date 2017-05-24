@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\User;
+use App\Events\PostCreated;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -50,10 +51,12 @@ class PostsController extends Controller
             'body'  => 'required'
         ]);
 
-        auth()->user()->posts()->create([
+        $post = auth()->user()->posts()->create([
             'title' => request('title'),
             'body'  => request('body')
         ]);
+
+        event(new PostCreated($post));
 
         return redirect('/posts');
     }
