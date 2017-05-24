@@ -20,3 +20,7 @@ Route::get('/', 'PostsController@index')->name('home');
 
 Route::resource('posts',            'PostsController');
 Route::resource('posts.comments',   'CommentsController');
+
+// Route::resource('tags',             'TagsController');
+// Route::resource('posts.tags',       'PostsTagsController');
+Route::get('/posts/tags/{tag}', 'PostsTagsController@index');

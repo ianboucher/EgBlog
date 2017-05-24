@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
 
     <!-- Custom styles for this template -->
-    <link href="../css/app.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
   </head>
 
   <body>
@@ -63,6 +63,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.9.4/umd/popper.min.js" integrity="sha256-KTKnuJPRS70XKLm+ka+irprJFaz/MLZQKHIID7ECCmw=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script> --}}
-    <script src="../js/app.js"></script>
+    <script src="/js/app.js"></script>
   </body>
 </html>
