@@ -17,6 +17,34 @@ class PostsTest extends TestCase
      *
      * @return void
      */
+    public function testPostHasTitle()
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Test Title'
+        ]);
+
+        $this->assertEquals('Test Title', $post->title);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testPostHasBody()
+    {
+        $post = factory(Post::class)->create([
+            'body' => 'Test body'
+        ]);
+
+        $this->assertEquals('Test body', $post->body);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
     public function testPostArchive()
     {
         $first  = factory(Post::class)->create();

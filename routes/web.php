@@ -16,7 +16,7 @@
 // });
 
 Auth::routes();
-Route::get('/', 'PostsController@index')->name('home');
+Route::get('/', 'PostsController@index');
 
 Route::resource('posts',            'PostsController');
 Route::resource('posts.comments',   'CommentsController');
