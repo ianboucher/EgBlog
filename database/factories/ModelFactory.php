@@ -23,6 +23,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+
 $factory->define(App\Post::class, function (Faker\Generator $faker) {
 
     return [
@@ -31,5 +32,20 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         },
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
+    ];
+});
+
+// $table->increments('id');
+// $table->string('name')->unique();
+// $table->timestamps();
+
+// $table->integer('post_id');
+// $table->integer('tag_id');
+// $table->primary(['post_id', 'tag_id']);
+
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->word,
     ];
 });

@@ -14,4 +14,11 @@ class PostsTagsController extends Controller
 
         return view('posts.index', compact('posts'));
     }
+
+    public function store(Post $post, Tag $tag)
+    {
+        $post->tags()->attach($tag);
+
+        return view('posts.index', compact('posts'));
+    }
 }
