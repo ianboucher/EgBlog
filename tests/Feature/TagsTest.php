@@ -25,8 +25,9 @@ class TagsTest extends TestCase
         $tag  = factory(Tag::class)->create();
 
         $post->tags()->attach($tag);
+        $tagFromDB = Post::find($post->id)->tags()->first();
 
-        $this->assertEquals($post->tags()->first()->id, $tag->id);
+        $this->assertEquals($tagFromDB->id, $tag->id);
     }
 
     /**
@@ -38,8 +39,8 @@ class TagsTest extends TestCase
     {
         $post = factory(Post::class)->create();
         $tag  = factory(Tag::class)->create();
-
         $post->tags()->attach($tag);
+
         $post->tags()->detach($tag);
 
         $this->assertEquals($post->tags()->first(), null);
@@ -79,7 +80,7 @@ class TagsTest extends TestCase
      *
      * @return void
      */
-    public function testTagDeletedFromDatabaseNotAssociatedWithPost()
+    public function testDeletedTagIsNotAssociatedWithPost()
     {
         $post = factory(Post::class)->create();
         $tag  = factory(Tag::class)->create();
@@ -87,6 +88,8 @@ class TagsTest extends TestCase
         $post->tags()->attach($tag);
         $tag->delete();
 
-        $this->assertEquals($post->tags()->first(), null);
+        $postFromDB = Post::find($post->id);
+
+        $this->assertEquals($postFromDB->tags()->first(), null);
     }
 }
