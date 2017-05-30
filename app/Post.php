@@ -29,6 +29,40 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function like()
+    {
+        $like = new Like(['user_id' => auth()->id()]);
+
+        $this->likes()->save($like);
+    }
+
+    public function unlike()
+    {
+        $this->likes()->where('user_id', auth()->id())->delete();
+    }
+
+    public function toggleLike()
+    {
+        return ($this->isLiked()) ? $this->unlike() : $this->like();
+    }
+
+    public function isLiked()
+    {
+        return !! $this->likes()
+                        ->where('user_id', auth()->id())
+                        ->count();
+    }
+
+    public function getLikesCountAttribute() // magic syntax for likesCount getter method
+    {
+        return $this->likes()->count();
+    }
+
     public function scopeFilter($query, $filters)
     {
         if ($filters['month']) {
