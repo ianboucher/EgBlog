@@ -14,6 +14,23 @@ class LikesTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $post;
+    protected $user;
+
+    /**
+     * Set up the conditions for the following tests
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Given I have a post and an authenticated user...
+        $this->post = factory(Post::class)->create();
+        $this->signIn();
+    }
+
     /**
      * A basic test example.
      *
@@ -21,22 +38,16 @@ class LikesTest extends TestCase
      */
     public function testUserCanLikeAPost()
     {
-        // given I have an authenticated user and a post
-        $post = factory(Post::class)->create();
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user); // allows test to simulate authenticated user
-
         // when that user 'likes' a Post
-        $post->like();
+        $this->post->like();
 
         // then I should see evidence in the database that the Post has been 'Liked'
-        $this->assertEquals(count(Post::find($post->id)->likes), 1);
-        $this->assertTrue($post->isLiked());
+        $this->assertEquals(count(Post::find($this->post->id)->likes), 1);
+        $this->assertTrue($this->post->isLiked());
         $this->assertDatabaseHas('likes', [
-            'user_id'       => $user->id,
-            'likeable_id'   => $post->id,
-            'likeable_type' => get_class($post)
+            'user_id'       => $this->user->id,
+            'likeable_id'   => $this->post->id,
+            'likeable_type' => get_class($this->post)
         ]);
     }
 
@@ -47,23 +58,15 @@ class LikesTest extends TestCase
      */
     public function testUserCanUnlikeAPost()
     {
-        // given I have an authenticated user and a post
-        $post = factory(Post::class)->create();
-        $user = factory(User::class)->create();
+        $this->post->like();
+        $this->post->unlike();
 
-        $this->actingAs($user); // allows test to simulate authenticated user
-
-        // when that user 'likes' and then 'unlikes' a Post
-        $post->like();
-        $post->unlike();
-
-        // then I should see evidence in the database that the Post has been 'Liked'
-        $this->assertEquals(count(Post::find($post->id)->likes), 0);
-        $this->assertFalse($post->isLiked());
+        $this->assertEquals(count(Post::find($this->post->id)->likes), 0);
+        $this->assertFalse($this->post->isLiked());
         $this->assertDatabaseMissing('likes', [
-            'user_id'       => $user->id,
-            'likeable_id'   => $post->id,
-            'likeable_type' => get_class($post)
+            'user_id'       => $this->user->id,
+            'likeable_id'   => $this->post->id,
+            'likeable_type' => get_class($this->post)
         ]);
     }
 
@@ -74,22 +77,11 @@ class LikesTest extends TestCase
      */
     public function testUserCanToggleLikeStatusForPost()
     {
-        // given I have an authenticated user and a post
-        $post = factory(Post::class)->create();
-        $user = factory(User::class)->create();
+        $this->post->toggleLike();
+        $this->assertTrue($this->post->isLiked());
 
-        $this->actingAs($user); // allows test to simulate authenticated user
-
-        // when that user 'likes' and then 'unlikes' a Post
-        $post->toggleLike();
-
-        // then I should see evidence in the database that the Post has been 'Liked'
-        $this->assertTrue($post->isLiked());
-
-        // and vice-versa
-        $post->toggleLike();
-
-        $this->assertFalse($post->isLiked());
+        $this->post->toggleLike();
+        $this->assertFalse($this->post->isLiked());
     }
 
     /**
@@ -99,17 +91,8 @@ class LikesTest extends TestCase
      */
     public function testLikeCountCanBeRetrievedFromPost()
     {
-        // given I have an authenticated user and a post
-        $post = factory(Post::class)->create();
-        $user = factory(User::class)->create();
+        $this->post->like();
 
-        $this->actingAs($user); // allows test to simulate authenticated user
-
-        // when that user 'likes' and then 'unlikes' a Post
-        $post->like();
-
-        // then I should see evidence in the database that the Post has been 'Liked'
-        $this->assertEquals($post->likesCount, 1);
-
+        $this->assertEquals($this->post->likesCount, 1);
     }
 }
