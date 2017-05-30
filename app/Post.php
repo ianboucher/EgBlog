@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Traits\Likeability;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Likeability; // my custom Trait to add Likes functionality
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,35 +35,6 @@ class Post extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function like()
-    {
-        $like = new Like(['user_id' => auth()->id()]);
-
-        $this->likes()->save($like);
-    }
-
-    public function unlike()
-    {
-        $this->likes()->where('user_id', auth()->id())->delete();
-    }
-
-    public function toggleLike()
-    {
-        return ($this->isLiked()) ? $this->unlike() : $this->like();
-    }
-
-    public function isLiked()
-    {
-        return !! $this->likes()
-                        ->where('user_id', auth()->id())
-                        ->count();
-    }
-
-    public function getLikesCountAttribute() // magic syntax for likesCount getter method
-    {
-        return $this->likes()->count();
     }
 
     public function scopeFilter($query, $filters)
